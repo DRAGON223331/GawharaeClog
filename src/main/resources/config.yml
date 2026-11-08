@@ -1,0 +1,5 @@
+# Paste your Discord webhook URL here ON THE SERVER (never commit it to GitHub).
+webhook-url: "PUT_WEBHOOK_URL_HERE"
+
+# Name shown as the sender in Discord
+username: "Gawhara Clog"

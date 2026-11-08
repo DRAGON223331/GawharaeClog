@@ -1,0 +1,6 @@
+name: GawharaeClog
+version: '${project.version}'
+main: dev.gawhara.clog.GawharaeClog
+api-version: '26.3'
+authors: [Gawharasmp]
+description: Gawharasmp - sends a Discord webhook message whenever a player is switched to Creative mode.
