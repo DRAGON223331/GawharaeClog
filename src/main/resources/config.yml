@@ -1,69 +1,208 @@
 # ============================================================
 #  GawharaeClog - Gawharasmp
-#  Logs every Creative mode change to Discord.
-#  After editing: /gclog reload
+#  سجل مفصّل لكل حاجة بتحصل في الكريتف.
+#  بعد أي تعديل: /gclog reload
 # ============================================================
 
-# Master switch (can also be changed in-game: /gclog enable | disable)
+# مفتاح التشغيل الرئيسي (/gclog enable | disable)
 enabled: true
 
-# How to send to Discord:
-#   webhook -> uses webhook-url (the webhook decides the channel)
-#   bot     -> uses bot-token + channel-id (bot must be in your server
-#              and have View Channel + Send Messages + Embed Links in that channel)
+# طريقة الإرسال لديسكورد:
+#   webhook -> بيستخدم webhook-url (الويب هوك هو اللي بيحدد الروم)
+#   bot     -> بيستخدم bot-token + channel-id (البوت لازم يكون في السيرفر وعنده
+#              View Channel + Send Messages + Embed Links في الروم)
 mode: webhook
 
-# ----- mode: webhook -----
+# ----- لو mode: webhook -----
 webhook-url: "PUT_WEBHOOK_URL_HERE"
 
-# ----- mode: bot -----
+# ----- لو mode: bot -----
 bot-token: "PUT_BOT_TOKEN_HERE"
 channel-id: "PUT_CHANNEL_ID_HERE"
 
-# Sender look (webhook mode only)
+# شكل المرسل (ويب هوك بس)
 username: "Gawhara Clog"
 avatar-url: ""
 
-# Shown in the embed footer
+# بيظهر في أسفل كل رسالة
 server-name: "Gawharasmp"
 
-# Optional ping when someone ENTERS creative. Examples:
-#   "<@&ROLE_ID>"  (role)   "<@USER_ID>" (user)   "@here"   "" (none)
+# منشن اختياري لما حد يدخل الكريتف:
+#   "<@&ROLE_ID>" (رول)   "<@USER_ID>" (يوزر)   "@here"   "" (من غير)
 mention: ""
 
-# ----- What to log -----
-log:
-  enter-creative: true      # someone switched TO creative
-  leave-creative: false     # someone switched FROM creative to another mode
-  join-in-creative: false   # someone joins the server already in creative
+# كل كام ثانية يتجمّع الأغراض ويتبعتوا في رسالة واحدة (عشان ديسكورد ميعملش rate limit)
+batch-seconds: 5
 
-# Only log these causes. Empty list = log everything.
-# Values: COMMAND, PLUGIN, DEFAULT_GAMEMODE, HARDCORE_DEATH, UNKNOWN
+# ----- إيه اللي يتسجّل -----
+log:
+  enter-creative: true            # لاعب دخل الكريتف
+  leave-creative: true            # لاعب خرج من الكريتف (فيه ملخص الجلسة كاملة)
+  join-in-creative: true          # لاعب دخل السيرفر وهو أصلاً كريتف
+  quit-in-creative: true          # لاعب خرج من السيرفر وهو في الكريتف (فيه ملخص الجلسة)
+  items-taken: true               # الأغراض اللي اتسحبت من قايمة الكريتف (بالاسم والعدد والتطعيمات)
+  items-dropped-from-menu: true   # أغراض اترمت على الأرض من القايمة نفسها
+  items-dropped: true             # أغراض رماها اللاعب (Q) وهو كريتف
+  items-picked-up: false          # أغراض لقطها من الأرض وهو كريتف
+  watched-commands: true          # الأوامر المراقَبة (give, summon, ...) من أي حد
+  dangerous-block-place: true     # لاعب كريتف حط بلوك خطير (TNT, كوماند بلوك, ...)
+  blocks-in-summary: true         # عدد البلوكات اللي حطها/كسرها في ملخص الجلسة
+
+# بيسجّل الأسباب دي بس. القايمة الفاضية = كل الأسباب.
+# القيم: COMMAND, PLUGIN, DEFAULT_GAMEMODE, HARDCORE_DEATH, UNKNOWN
 causes: []
 
-# Players never logged (names or UUIDs). Players with permission
-# gawharaeclog.bypass are also skipped.
+# لاعبين مش بيتسجّلوا أبداً (أسماء أو UUID). اللي معاه gawharaeclog.bypass كمان بيتخطّى.
 ignored-players: []
 
-# ----- Embed content -----
+# ----- محتوى الرسايل -----
 embed:
   include-location: true
   include-uuid: true
-  include-executor: true    # tries to show WHO ran the command (player/console/command block)
-  enter-title: "Creative Mode Enabled"
-  leave-title: "Creative Mode Disabled"
-  join-title: "Joined In Creative Mode"
-  enter-color: "#FF5555"
-  leave-color: "#55FF55"
-  join-color: "#FFAA00"
+  include-executor: true     # بيحاول يعرض مين نفّذ الأمر (لاعب/كونسول/كوماند بلوك)
+  extended-info: true        # صحة/جوع/لفل/بنج/كلاينت/اللي في اليد/عدد اللاعبين/الاتجاه/البيئة
+  include-ip: false          # عنوان IP (بيظهر كـ spoiler). اقفله لو مش محتاجه
 
-# Command names treated as gamemode commands (used to detect the executor)
+titles:
+  enter: "🟥 لاعب دخل وضع الكريتف"
+  leave: "🟩 لاعب خرج من وضع الكريتف"
+  join: "🟧 لاعب دخل السيرفر وهو في الكريتف"
+  quit: "🚪 لاعب خرج من السيرفر وهو في الكريتف"
+  items-taken: "📦 أغراض اتسحبت من قايمة الكريتف"
+  items-menu-dropped: "🗑️ أغراض اترمت من قايمة الكريتف"
+  items-dropped: "📤 أغراض اترمت على الأرض (كريتف)"
+  items-picked-up: "📥 أغراض اتلقطت من الأرض (كريتف)"
+  watched-command: "⌨️ أمر مراقَب اتنفّذ"
+
+colors:
+  enter: "#FF5555"
+  leave: "#55FF55"
+  join: "#FFAA00"
+  items: "#5865F2"
+  danger: "#FF0000"
+
+# ----- الأغراض الخطيرة / الغالية -----
+# أي غرض أو بلوك من دول بيتعلّم بـ ⚠️ والرسالة بتبقى حمرا ويتعمل منشن.
+# بيتعلّم كمان أي تطعيم فوق الحد الطبيعي (زي Sharpness 255).
+dangerous:
+  mention: ""
+  items:
+    - BEDROCK
+    - BARRIER
+    - STRUCTURE_BLOCK
+    - STRUCTURE_VOID
+    - JIGSAW
+    - COMMAND_BLOCK
+    - CHAIN_COMMAND_BLOCK
+    - REPEATING_COMMAND_BLOCK
+    - COMMAND_BLOCK_MINECART
+    - TNT
+    - TNT_MINECART
+    - SPAWNER
+    - TRIAL_SPAWNER
+    - DEBUG_STICK
+    - LIGHT
+    - END_PORTAL_FRAME
+    - DRAGON_EGG
+    - KNOWLEDGE_BOOK
+    - ENCHANTED_GOLDEN_APPLE
+    - TOTEM_OF_UNDYING
+    - ELYTRA
+    - NETHERITE_INGOT
+    - NETHERITE_BLOCK
+    - BEACON
+    - NETHER_STAR
+
+# أوامر الجيم مود (بتتستخدم عشان نعرف مين نفّذ التحويل)
 gamemode-commands: [gamemode, gm, gmc, gms, gma, gmsp, egamemode, egm, egmc, egms, egma, egmsp, creative, survival, adventure, spectator]
 
-# ----- In-game alert for staff with gawharaeclog.notify -----
+# أوامر مراقَبة: كل ما حد ينفّذها بتتسجّل (لاعب أو كونسول أو كوماند بلوك)
+watched-commands: [give, i, item, summon, setblock, fill, clone, enchant, effect, gamerule, op, deop, tp, teleport]
+
+# ----- تنبيه جوه اللعبة للي معاه gawharaeclog.notify -----
 ingame-notify:
   enabled: true
-  message: "&c[Clog] &f{player} &7{old} -> &c{new} &7(cause: {cause}, by: {executor})"
+  # المتغيرات: {player} {old} {new} {cause} {executor}
+  message: "&c[Clog] &f{player} &7حوّل &7{old} &7← &c{new} &7(السبب: {cause}، بواسطة: {executor})"
 
-# Prefix for /gclog replies
 prefix: "&8[&cGawharaeClog&8] &7"
+
+# ----- أسماء الأغراض بالعربي -----
+# أي غرض مش مكتوب هنا بيظهر بالإنجليزي (مثلاً Diamond Block). ضيف براحتك: MATERIAL: "الاسم"
+item-names-ar:
+  DIAMOND: "ألماس"
+  DIAMOND_BLOCK: "بلوك ألماس"
+  DIAMOND_SWORD: "سيف ألماس"
+  DIAMOND_PICKAXE: "بيكاكس ألماس"
+  DIAMOND_AXE: "فأس ألماس"
+  DIAMOND_SHOVEL: "مجرفة ألماس"
+  DIAMOND_HELMET: "خوذة ألماس"
+  DIAMOND_CHESTPLATE: "صدرية ألماس"
+  DIAMOND_LEGGINGS: "بنطلون ألماس"
+  DIAMOND_BOOTS: "حذاء ألماس"
+  NETHERITE_INGOT: "سبيكة نذرايت"
+  NETHERITE_BLOCK: "بلوك نذرايت"
+  NETHERITE_SCRAP: "خردة نذرايت"
+  NETHERITE_SWORD: "سيف نذرايت"
+  NETHERITE_PICKAXE: "بيكاكس نذرايت"
+  NETHERITE_AXE: "فأس نذرايت"
+  NETHERITE_SHOVEL: "مجرفة نذرايت"
+  NETHERITE_HELMET: "خوذة نذرايت"
+  NETHERITE_CHESTPLATE: "صدرية نذرايت"
+  NETHERITE_LEGGINGS: "بنطلون نذرايت"
+  NETHERITE_BOOTS: "حذاء نذرايت"
+  EMERALD: "زمرد"
+  EMERALD_BLOCK: "بلوك زمرد"
+  GOLD_INGOT: "سبيكة ذهب"
+  GOLD_BLOCK: "بلوك ذهب"
+  IRON_INGOT: "سبيكة حديد"
+  IRON_BLOCK: "بلوك حديد"
+  COAL: "فحم"
+  COPPER_INGOT: "سبيكة نحاس"
+  LAPIS_LAZULI: "لازورد"
+  REDSTONE: "ريد ستون"
+  QUARTZ: "كوارتز"
+  ENCHANTED_GOLDEN_APPLE: "تفاحة ذهبية مسحورة"
+  GOLDEN_APPLE: "تفاحة ذهبية"
+  TOTEM_OF_UNDYING: "طوطم الخلود"
+  ELYTRA: "إليترا"
+  BEACON: "منارة"
+  NETHER_STAR: "نجمة النذر"
+  DRAGON_EGG: "بيضة التنين"
+  END_CRYSTAL: "كريستال الإند"
+  TNT: "تي إن تي"
+  TNT_MINECART: "عربة تي إن تي"
+  BEDROCK: "بدروك"
+  BARRIER: "بلوك الحاجز"
+  COMMAND_BLOCK: "كوماند بلوك"
+  CHAIN_COMMAND_BLOCK: "كوماند بلوك متسلسل"
+  REPEATING_COMMAND_BLOCK: "كوماند بلوك متكرر"
+  STRUCTURE_BLOCK: "ستركتشر بلوك"
+  SPAWNER: "سبونر"
+  DEBUG_STICK: "عصا التصحيح"
+  KNOWLEDGE_BOOK: "كتاب المعرفة"
+  ENCHANTED_BOOK: "كتاب مسحور"
+  EXPERIENCE_BOTTLE: "زجاجة خبرة"
+  ENDER_CHEST: "شنطة الإندر"
+  SHULKER_BOX: "شولكر بوكس"
+  ENDER_PEARL: "لؤلؤة إندر"
+  BOW: "قوس"
+  CROSSBOW: "كروس بو"
+  TRIDENT: "ترايدنت"
+  MACE: "ميس"
+  SHIELD: "درع"
+  FIREWORK_ROCKET: "صاروخ ألعاب نارية"
+  LAVA_BUCKET: "جردل لافا"
+  WATER_BUCKET: "جردل مية"
+  OAK_LOG: "جذع بلوط"
+  COBBLESTONE: "كوبل ستون"
+  STONE: "حجر"
+  DIRT: "تراب"
+  GRASS_BLOCK: "بلوك عشب"
+  OBSIDIAN: "أوبسيديان"
+  GLASS: "زجاج"
+  ARROW: "سهم"
+  BREAD: "عيش"
+  COOKED_BEEF: "ستيك"
+  WRITTEN_BOOK: "كتاب مكتوب"
+  SPAWN_EGG: "بيضة سبون"

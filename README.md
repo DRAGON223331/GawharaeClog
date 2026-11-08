@@ -1,8 +1,20 @@
 # GawharaeClog (Gawharasmp)
-Logs every Creative mode change (F3+F4, /gamemode, other plugins) to Discord.
+سجل مفصّل بالعربي على ديسكورد لكل حاجة بتحصل في الكريتف.
 
-- Paper 26.3, Java 25
-- Modes: `webhook` or `bot` (bot token + channel ID)
-- Commands: `/gclog reload | enable | disable | status | test`
-- Permissions: `gawharaeclog.admin`, `gawharaeclog.notify`, `gawharaeclog.bypass`
-- Config: `plugins/GawharaeClog/config.yml`
+## بيسجّل إيه
+- دخول/خروج الكريتف (F3+F4، /gamemode، بلجن) مع **مين نفّذ** والسبب
+- **الأغراض اللي اتسحبت** من قايمة الكريتف: الاسم والعدد والتطعيمات والبوشن والاسم المخصص والمحتوى (شولكر/باندل)
+- أغراض اترمت من القايمة، أو رماها اللاعب، أو لقطها (اختياري)
+- الأوامر المراقَبة (give / summon / ...) حتى من الكونسول والكوماند بلوك
+- بلوكات خطيرة اتحطت (TNT، كوماند بلوك، ...)
+- **ملخص الجلسة** وقت الخروج: المدة، الأغراض، البلوكات، الأوامر
+- معلومات اللاعب: الإحداثيات، الاتجاه، البيئة، الصحة، الجوع، المستوى، البنج، الكلاينت، اللي في اليد
+
+## الأوامر
+`/gclog reload | enable | disable | status | list | test`
+
+## الصلاحيات
+`gawharaeclog.admin` · `gawharaeclog.notify` · `gawharaeclog.bypass`
+
+## المتطلبات
+Paper 26.3 + Java 25. الإعدادات في `plugins/GawharaeClog/config.yml`.

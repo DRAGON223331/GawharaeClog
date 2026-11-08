@@ -3,21 +3,21 @@ version: '${project.version}'
 main: dev.gawhara.clog.GawharaeClog
 api-version: '26.3'
 authors: [Gawharasmp]
-description: Logs Creative mode changes to Discord (webhook or bot channel).
+description: سجل مفصّل بالعربي لكل تحويل للكريتف والأغراض اللي اتسحبت، بيتبعت على ديسكورد.
 
 commands:
   gclog:
-    description: GawharaeClog admin command
-    usage: /gclog <reload|enable|disable|status|test|help>
+    description: أوامر GawharaeClog
+    usage: /gclog <reload|enable|disable|status|list|test|help>
     aliases: [gawharaeclog, clog]
 
 permissions:
   gawharaeclog.admin:
-    description: Use /gclog commands
+    description: استخدام أوامر /gclog
     default: op
   gawharaeclog.notify:
-    description: Get an in-game alert when someone enters/leaves Creative
+    description: تنبيه جوه اللعبة لما حد يدخل الكريتف
     default: op
   gawharaeclog.bypass:
-    description: Players with this are NOT logged
+    description: اللي معاه الصلاحية دي مش بيتسجّل
     default: false
