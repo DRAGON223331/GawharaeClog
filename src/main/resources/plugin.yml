@@ -3,4 +3,21 @@ version: '${project.version}'
 main: dev.gawhara.clog.GawharaeClog
 api-version: '26.3'
 authors: [Gawharasmp]
-description: Gawharasmp - sends a Discord webhook message whenever a player is switched to Creative mode.
+description: Logs Creative mode changes to Discord (webhook or bot channel).
+
+commands:
+  gclog:
+    description: GawharaeClog admin command
+    usage: /gclog <reload|enable|disable|status|test|help>
+    aliases: [gawharaeclog, clog]
+
+permissions:
+  gawharaeclog.admin:
+    description: Use /gclog commands
+    default: op
+  gawharaeclog.notify:
+    description: Get an in-game alert when someone enters/leaves Creative
+    default: op
+  gawharaeclog.bypass:
+    description: Players with this are NOT logged
+    default: false

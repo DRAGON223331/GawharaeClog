@@ -1,5 +1,8 @@
-# GawharaeClog
-Gawharasmp plugin: sends a Discord webhook message whenever a player is switched to Creative (F3+F4, /gamemode, other plugins).
+# GawharaeClog (Gawharasmp)
+Logs every Creative mode change (F3+F4, /gamemode, other plugins) to Discord.
 
 - Paper 26.3, Java 25
-- Put the jar in `plugins/`, start the server once, set `webhook-url` in `plugins/GawharaeClog/config.yml`, then restart.
+- Modes: `webhook` or `bot` (bot token + channel ID)
+- Commands: `/gclog reload | enable | disable | status | test`
+- Permissions: `gawharaeclog.admin`, `gawharaeclog.notify`, `gawharaeclog.bypass`
+- Config: `plugins/GawharaeClog/config.yml`

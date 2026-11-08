@@ -1,5 +1,69 @@
-# Paste your Discord webhook URL here ON THE SERVER (never commit it to GitHub).
+# ============================================================
+#  GawharaeClog - Gawharasmp
+#  Logs every Creative mode change to Discord.
+#  After editing: /gclog reload
+# ============================================================
+
+# Master switch (can also be changed in-game: /gclog enable | disable)
+enabled: true
+
+# How to send to Discord:
+#   webhook -> uses webhook-url (the webhook decides the channel)
+#   bot     -> uses bot-token + channel-id (bot must be in your server
+#              and have View Channel + Send Messages + Embed Links in that channel)
+mode: webhook
+
+# ----- mode: webhook -----
 webhook-url: "PUT_WEBHOOK_URL_HERE"
 
-# Name shown as the sender in Discord
+# ----- mode: bot -----
+bot-token: "PUT_BOT_TOKEN_HERE"
+channel-id: "PUT_CHANNEL_ID_HERE"
+
+# Sender look (webhook mode only)
 username: "Gawhara Clog"
+avatar-url: ""
+
+# Shown in the embed footer
+server-name: "Gawharasmp"
+
+# Optional ping when someone ENTERS creative. Examples:
+#   "<@&ROLE_ID>"  (role)   "<@USER_ID>" (user)   "@here"   "" (none)
+mention: ""
+
+# ----- What to log -----
+log:
+  enter-creative: true      # someone switched TO creative
+  leave-creative: false     # someone switched FROM creative to another mode
+  join-in-creative: false   # someone joins the server already in creative
+
+# Only log these causes. Empty list = log everything.
+# Values: COMMAND, PLUGIN, DEFAULT_GAMEMODE, HARDCORE_DEATH, UNKNOWN
+causes: []
+
+# Players never logged (names or UUIDs). Players with permission
+# gawharaeclog.bypass are also skipped.
+ignored-players: []
+
+# ----- Embed content -----
+embed:
+  include-location: true
+  include-uuid: true
+  include-executor: true    # tries to show WHO ran the command (player/console/command block)
+  enter-title: "Creative Mode Enabled"
+  leave-title: "Creative Mode Disabled"
+  join-title: "Joined In Creative Mode"
+  enter-color: "#FF5555"
+  leave-color: "#55FF55"
+  join-color: "#FFAA00"
+
+# Command names treated as gamemode commands (used to detect the executor)
+gamemode-commands: [gamemode, gm, gmc, gms, gma, gmsp, egamemode, egm, egmc, egms, egma, egmsp, creative, survival, adventure, spectator]
+
+# ----- In-game alert for staff with gawharaeclog.notify -----
+ingame-notify:
+  enabled: true
+  message: "&c[Clog] &f{player} &7{old} -> &c{new} &7(cause: {cause}, by: {executor})"
+
+# Prefix for /gclog replies
+prefix: "&8[&cGawharaeClog&8] &7"
